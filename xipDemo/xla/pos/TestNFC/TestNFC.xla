@@ -1,0 +1,61 @@
+[properties]
+size=677
+Buff=<properties><XLAmeta><package name="XLAKIT" XLA="TestNFC" ver="1.0.1" desc="POS based on XLAs"/><device version="2.2.1"/><server version="2.0.0"/><entry oninstall="MTestNFC_OnInstall" onload="TestNFC_OnLoad"/><script lua="yes"/><reqlualib LuaLibName="xla"/><reqlualib LuaLibName="xms"/><reqlualib LuaLibName="screen"/><reqlualib LuaLibName="sysnfc"/><reqlualib LuaLibName="config"/><reqlualib LuaLibName="record"/><reqlualib LuaLibName="uuid"/><reqlualib LuaLibName="appconfig"/><reqlualib LuaLibName="trigger"/></XLAmeta>
+<require><XipXla name="Global.xla"/></require>
+<params><param refreshGPRS="1"/><param showLastTxn="0"/><param Language="SP"/></params>
+</properties>
+[strings]
+size=263
+Buff=<strings><language><EN><str lblTitle="Test NFC"/><str lblTitleTransationResult="Ket qua"/><str NFCPRGS="Dang xu ly NFC"/></EN>
+<SP><str lblTitle="Test NFC"/><str lblTitleTransationResult="Ket qua"/><str NFCPRGS="Dang xu ly NFC"/></SP>
+</language>
+</strings>
+[LUAScript]
+size=1518
+Buff=nfcSess=nil
+nfcData=nil
+isReadData="false"function TestNFC_OnLoad()showInputScreen("Nhap data","")end
+function showInputScreen(e,n)DisplayScreenFromRes("inputEntryScreen",e,n)end
+function onBottomLeftPress()xipdbg("Calling OnLeft")goHome()end
+function onBottomRightPress(e)xipdbg("Calling OnRight "..e)nfcData=e
+DisplayScreenFromRes("NFCProgress","Tap to write"," ")nfcSess=sysnfc_init("OnNFCWriteDetectData")if(nfcSess==-1)then
+showResultTransactionScreen("NFC loi","onBottomRightPress")end
+end
+function OnNFCWriteDetectData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_writeTagData(nfcSess,1,2,nfcData,"OnNFCWriteData")else
+showResultTransactionScreen("NFC loi","OnNFCWriteDetectData")end
+end
+function OnNFCWriteData(e)nfcSess=0
+if(e=="true")then
+DisplayScreenFromRes("NFCProgress","Tap to read","")isReadData="true"nfcSess=sysnfc_init("onNFCReadDetectValData")else
+showResultTransactionScreen("NFC loi","OnNFCWriteData")end
+end
+function onNFCReadDetectValData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_readTagData(nfcSess,1,2,"onNFCReadValData")else
+showResultTransactionScreen("NFC loi","onNFCReadDetectValData")end
+end
+function onNFCReadValData(e,n,t)local t=1
+nfcSess=0
+if(e=="true")then
+showResultTransactionScreen("NFC thanh cong",n)else
+showResultTransactionScreen("NFC loi","onNFCReadValData")end
+end
+function onBackToInputScreen()showInputScreen("","#lblEnterPhoneNumber")end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("resultTransactionScreen",e,n)end
+function goHome()ChangeXla("HomeScreen")end[inputEntryScreen]
+screenType=1
+size=508
+Buff=<screen><screenName name="inputEntryScreen"/><screenType id="1"/><widget name="title" text="lblTitle"/><string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="input" inputtype="3" maxinputlen="12"/><widget name="brsk" text="Global:TIEPTUC"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="onBottomLeftPress" key_brsk="onBottomRightPress"/></screen>
+[resultTransactionScreen]
+screenType=1
+size=407
+Buff=<screen><screenName name="resultTransactionScreen"/><screenType id="1"/><widget name="title" text="lblTitleTransationResult"/><string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="onBackToInputScreen"/></screen>
+[NFCProgress]
+screenType=0
+size=395
+Buff=<screen><screenName name="NFCProgress"/><screenType id="0"/><widget name="title" text="NFCPRGS"/><string x="8" y="36" text="@1" font="0" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="50" text="@2" font="0" fontcolorR="255" fontcolorG="0" fontcolorB="0"/><widget name="nfcanim"/><widget name="blsk" text="Global:XACNHAN"/><actions key_blsk="Perso_OnCancel"/></screen>
+[CRC]
+size=10
+Buff=LQ==

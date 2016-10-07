@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<strings>
+<language>
+<EN>
+
+
+
+<str lblTitle="Test NFC" />
+<str lblTitleTransationResult="Ket qua" />
+<str NFCPRGS="Dang xu ly NFC" />
+
+
+
+</EN>
+<SP>
+<str lblTitle="Test NFC" />
+<str lblTitleTransationResult="Ket qua" />
+<str NFCPRGS="Dang xu ly NFC" />
+
+</SP>
+</language>
+</strings>

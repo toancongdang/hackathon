@@ -1,0 +1,21 @@
+action="GO_HOME"screenInputPhoneLbl1=""screenInputPhoneLbl2=""phoneNumber=""function MomoBalance_OnLoad()DisplayScreenFromRes("OptionMethodScreen")end
+function OnGenericMenu()MenuText,MenuKeyIndex=GetMenuKeyIndex()if(MenuKeyIndex==1001)then
+showInputScreen("","#lblEnterPhoneNumber")elseif(MenuKeyIndex==1002)then
+xipdbg("Calling OnGenericMenu nfc")else
+xipdbg("Calling OnGenericMenu blutooth")end
+end
+function showInputScreen(e,n)DisplayScreenFromRes("momoBalanceInputEntryScreen",e,n)end
+function MomoBalance_onBottomLeftPress()xipdbg("Calling OnLeft")goHome()end
+function MomoBalance_onBottomRightPress(e)xipdbg("Calling OnRight "..e)if(e=="0986889523")then
+phoneNumber=e
+showEnterPasswordScreen("#lblEnterLogPassMomo")else
+showInputScreen("#lblFailPhoneNumber","#lblFailPhoneNumberSub")end
+end
+function showEnterPasswordScreen(e)DisplayScreenFromRes("momoBalanceCheckPasswordScreen",e)end
+function MomoBalance_onBackToInputScreen()showInputScreen("","#lblEnterPhoneNumber")end
+function MomoBalance_onEnteredPassword(e)if(e=="123456")then
+local e="90.000.000d"showResultTransactionScreen("#lblResultOK"," cua ban la: "..e)else
+showResultTransactionScreen("#lblResultFail","")end
+end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("momoBalanceResultTransactionScreen",e,n)end
+function goHome()ChangeXla("HomeScreen")end

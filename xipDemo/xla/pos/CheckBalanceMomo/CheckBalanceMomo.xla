@@ -1,0 +1,55 @@
+[properties]
+size=693
+Buff=<properties><XLAmeta><package name="XLAKIT" XLA="CheckBalanceMomo" ver="1.0.1" desc="POS based on XLAs"/><device version="2.2.1"/><server version="2.0.0"/><entry oninstall="MomoBalance_OnInstall" onload="MomoBalance_OnLoad"/><script lua="yes"/><reqlualib LuaLibName="xla"/><reqlualib LuaLibName="xms"/><reqlualib LuaLibName="screen"/><reqlualib LuaLibName="sysnfc"/><reqlualib LuaLibName="config"/><reqlualib LuaLibName="record"/><reqlualib LuaLibName="uuid"/><reqlualib LuaLibName="appconfig"/><reqlualib LuaLibName="trigger"/></XLAmeta>
+<require><XipXla name="Global.xla"/></require>
+<params><param refreshGPRS="1"/><param showLastTxn="0"/><param Language="SP"/></params>
+</properties>
+[strings]
+size=1213
+Buff=<strings><language><EN><str lblTitleOption="Chon phuong thuc"/><str inputMethodLbl="Nhap lieu"/><str nfcMethodLbl="NFC"/><str blutoothMethodLbl="BLUTOOTH"/><str lblTitle="Kiem tra so du"/><str lblEnterPhoneNumber="Nhap so dien thoai"/><str lblConfirmPhoneNumber="So dien thoai "/><str lblFailPhoneNumber="So dien thoai khong dung dinh dang"/><str lblFailPhoneNumberSub=" dung dinh dang"/><str lblTitleSercurity="Xac thuc"/><str lblEnterLogPassMomo="Nhap mat khau"/><str lblTitleTransationResult="Ket qua"/><str lblResultOK="So du trong tai khoan cua"/><str lblResultOKSub=" ban la: "/><str lblResultFail="Xu ly that bai: "/></EN>
+<SP><str lblTitleOption="Chon phuong thuc"/><str inputMethodLbl="Nhap lieu"/><str nfcMethodLbl="NFC"/><str blutoothMethodLbl="BLUTOOTH"/><str lblTitle="Kiem tra so du"/><str lblEnterPhoneNumber="Nhap so dien thoai"/><str lblConfirmPhoneNumber="So dien thoai "/><str lblFailPhoneNumber="So dien thoai khong"/><str lblFailPhoneNumberSub=" dung dinh dang"/><str lblTitleSercurity="Xac thuc"/><str lblEnterLogPassMomo="Nhap mat khau"/><str lblResultOK="So du trong tai khoan cua"/><str lblResultOKSub=" ban la: "/><str lblResultFail="Xu ly that bai: "/></SP>
+</language>
+</strings>
+[LUAScript]
+size=1341
+Buff=action="GO_HOME"screenInputPhoneLbl1=""screenInputPhoneLbl2=""phoneNumber=""function MomoBalance_OnLoad()DisplayScreenFromRes("OptionMethodScreen")end
+function OnGenericMenu()MenuText,MenuKeyIndex=GetMenuKeyIndex()if(MenuKeyIndex==1001)then
+showInputScreen("","#lblEnterPhoneNumber")elseif(MenuKeyIndex==1002)then
+xipdbg("Calling OnGenericMenu nfc")else
+xipdbg("Calling OnGenericMenu blutooth")end
+end
+function showInputScreen(e,n)DisplayScreenFromRes("momoBalanceInputEntryScreen",e,n)end
+function MomoBalance_onBottomLeftPress()xipdbg("Calling OnLeft")goHome()end
+function MomoBalance_onBottomRightPress(e)xipdbg("Calling OnRight "..e)if(e=="0986889523")then
+phoneNumber=e
+showEnterPasswordScreen("#lblEnterLogPassMomo")else
+showInputScreen("#lblFailPhoneNumber","#lblFailPhoneNumberSub")end
+end
+function showEnterPasswordScreen(e)DisplayScreenFromRes("momoBalanceCheckPasswordScreen",e)end
+function MomoBalance_onBackToInputScreen()showInputScreen("","#lblEnterPhoneNumber")end
+function MomoBalance_onEnteredPassword(e)if(e=="123456")then
+local e="90.000.000d"showResultTransactionScreen("#lblResultOK"," cua ban la: "..e)else
+showResultTransactionScreen("#lblResultFail","")end
+end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("momoBalanceResultTransactionScreen",e,n)end
+function goHome()ChangeXla("HomeScreen")end[OptionMethodScreen]
+screenType=2
+Menus=3
+size=597
+Buff=<screen><screenName name="OptionMethodScreen"/><screenType id="2"/><widget name="title" text="lblTitleOption"/><menus><menustart menutype="0" x="8" y="42" hotkeyflag="1" generichandler="OnGenericMenu"/><menustr text="inputMethodLbl"/><menustr text="nfcMethodLbl"/><menustr text="blutoothMethodLbl"/><menuimg xoffset="145" yoffset="40" type="3" imageid="img_uparrow"/><menuimg xoffset="145" yoffset="100" type="3" imageid="img_downarrow"/></menus>
+<widget name="brsk" text="Global:TIEPTUC"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="MomoBalance_onBottomLeftPress"/></screen>
+[momoBalanceInputEntryScreen]
+screenType=1
+size=543
+Buff=<screen><screenName name="momoBalanceInputEntryScreen"/><screenType id="1"/><widget name="title" text="lblTitle"/><string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="input" inputtype="3" maxinputlen="12"/><widget name="brsk" text="Global:TIEPTUC"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="MomoBalance_onBottomLeftPress" key_brsk="MomoBalance_onBottomRightPress"/></screen>
+[momoBalanceCheckPasswordScreen]
+screenType=1
+size=464
+Buff=<screen><screenName name="momoBalanceCheckPasswordScreen"/><screenType id="1"/><widget name="title" text="lblTitleSercurity"/><string x="8" y="54" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="input" inputtype="0" maxinputlen="12"/><widget name="brsk" text="Global:XACNHAN"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="MomoBalance_onBackToInputScreen" key_brsk="MomoBalance_onEnteredPassword"/></screen>
+[momoBalanceResultTransactionScreen]
+screenType=1
+size=430
+Buff=<screen><screenName name="momoBalanceResultTransactionScreen"/><screenType id="1"/><widget name="title" text="lblTitleTransationResult"/><string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="MomoBalance_onBackToInputScreen"/></screen>
+[CRC]
+size=10
+Buff=fw==

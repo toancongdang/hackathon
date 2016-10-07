@@ -1,0 +1,33 @@
+nfcSess=nil
+nfcData=nil
+isReadData="false"function TestNFC_OnLoad()showInputScreen("Nhap data","")end
+function showInputScreen(e,n)DisplayScreenFromRes("inputEntryScreen",e,n)end
+function onBottomLeftPress()xipdbg("Calling OnLeft")goHome()end
+function onBottomRightPress(e)xipdbg("Calling OnRight "..e)nfcData=e
+DisplayScreenFromRes("NFCProgress","Tap to write"," ")nfcSess=sysnfc_init("OnNFCWriteDetectData")if(nfcSess==-1)then
+showResultTransactionScreen("NFC loi","onBottomRightPress")end
+end
+function OnNFCWriteDetectData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_writeTagData(nfcSess,1,2,nfcData,"OnNFCWriteData")else
+showResultTransactionScreen("NFC loi","OnNFCWriteDetectData")end
+end
+function OnNFCWriteData(e)nfcSess=0
+if(e=="true")then
+DisplayScreenFromRes("NFCProgress","Tap to read","")isReadData="true"nfcSess=sysnfc_init("onNFCReadDetectValData")else
+showResultTransactionScreen("NFC loi","OnNFCWriteData")end
+end
+function onNFCReadDetectValData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_readTagData(nfcSess,1,2,"onNFCReadValData")else
+showResultTransactionScreen("NFC loi","onNFCReadDetectValData")end
+end
+function onNFCReadValData(e,n,t)local t=1
+nfcSess=0
+if(e=="true")then
+showResultTransactionScreen("NFC thanh cong",n)else
+showResultTransactionScreen("NFC loi","onNFCReadValData")end
+end
+function onBackToInputScreen()showInputScreen("","#lblEnterPhoneNumber")end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("resultTransactionScreen",e,n)end
+function goHome()ChangeXla("HomeScreen")end

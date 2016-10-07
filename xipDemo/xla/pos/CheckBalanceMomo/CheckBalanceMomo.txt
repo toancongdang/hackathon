@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<strings>
+<language>
+<EN>
+
+<str lblTitleOption="Chon phuong thuc" />
+<str inputMethodLbl="Nhap lieu" />
+<str nfcMethodLbl="NFC" />
+<str blutoothMethodLbl="BLUTOOTH" />
+
+<str lblTitle="Kiem tra so du" />
+<str lblEnterPhoneNumber="Nhap so dien thoai" />
+<str lblConfirmPhoneNumber="So dien thoai " />
+<str lblFailPhoneNumber="So dien thoai khong dung dinh dang" />
+<str lblFailPhoneNumberSub=" dung dinh dang" />
+
+<str lblTitleSercurity="Xac thuc" />
+<str lblEnterLogPassMomo="Nhap mat khau" />
+
+<str lblTitleTransationResult="Ket qua" />
+<str lblResultOK="So du trong tai khoan cua" />
+<str lblResultOKSub=" ban la: " />
+<str lblResultFail="Xu ly that bai: " />
+
+</EN>
+<SP>
+<str lblTitleOption="Chon phuong thuc" />
+<str inputMethodLbl="Nhap lieu" />
+<str nfcMethodLbl="NFC" />
+<str blutoothMethodLbl="BLUTOOTH" />
+<str lblTitle="Kiem tra so du" />
+<str lblEnterPhoneNumber="Nhap so dien thoai" />
+<str lblConfirmPhoneNumber="So dien thoai " />
+<str lblFailPhoneNumber="So dien thoai khong" />
+<str lblFailPhoneNumberSub=" dung dinh dang" />
+<str lblTitleSercurity="Xac thuc" />
+<str lblEnterLogPassMomo="Nhap mat khau" />
+
+<str lblResultOK="So du trong tai khoan cua" />
+<str lblResultOKSub=" ban la: " />
+<str lblResultFail="Xu ly that bai: " />
+
+</SP>
+</language>
+</strings>

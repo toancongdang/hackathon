@@ -1,0 +1,9 @@
+<xla-preload mno="xlakit">
+	<bundle name="pos" defaultpath="XLA/pos" startup-xla="ActivatePos" onready-xla="ActivatePos">
+		<xla package ="XLAKIT"  ver="1.0.0" name="Global" />
+		<xla package ="XLAKIT"  ver="1.0.0" name="HomeScreen" />
+		<xla package ="XLAKIT"  ver="1.0.0" name="CheckBalanceMomo" />
+		<xla package ="XLAKIT"  ver="1.0.0" name="Image" />
+		<xla package ="XLAKIT"  ver="1.0.0" name="POS" />
+	</bundle>
+</xla-preload>

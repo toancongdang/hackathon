@@ -1,0 +1,45 @@
+[properties]
+size=572
+Buff=<properties><XLAmeta><package name="XLAKIT" XLA="HomeScreen" ver="1.0.0" desc="POS based on XLAs"/><device version="2.2.1"/><server version="2.0.0"/><entry oninstall="HS_OnInstall" onload="HS_OnLoad"/><require><XipXla name="Global.xla"/><XipXla name="Image.xla"/></require>
+<script lua="yes"/><reqlualib LuaLibName="xla"/><reqlualib LuaLibName="screen"/><reqlualib LuaLibName="config"/><reqlualib LuaLibName="trigger"/><reqlualib LuaLibName="appconfig"/></XLAmeta>
+<params><param refreshGPRS="1"/><param showLastTxn="0"/><param Language="SP"/></params>
+</properties>
+[strings]
+size=717
+Buff=<strings><language><EN><str RCV="RECV ONL"/><str RCVOFF="RECV OFFL"/><str PERSO="REGISTER"/><str BAL="BALANCE"/><str MENU="MENU"/><str LFT=" LFT"/><str SOD=" TSOD"/><str CBAL="CUST BAL"/><str TOP="TOPUP"/><str MOMO_BALANCE="Ktra TK"/><str MOMO_TRANFER="Chuyen tien"/><str MOMO_CASHIN="Nap tien"/><str MOMO_NEW_IDEA="POS"/><str TEST_NFC="Test NFC"/></EN>
+<SP><str RCV="RECV ONL"/><str RCVOFF="RECV OFFL"/><str PERSO="REGISTER"/><str BAL="BALANCE"/><str MENU="MENU"/><str LFT=" LFT"/><str SOD=" TSOD"/><str CBAL="CUST BAL"/><str TOP="TOPUP"/><str MOMO_BALANCE="Ktra TK"/><str MOMO_TRANFER="Chuyen tien"/><str MOMO_CASHIN="Nap tien"/><str MOMO_NEW_IDEA="POS"/><str TEST_NFC="Test NFC"/></SP>
+</language>
+</strings>
+[LUAScript]
+size=1444
+Buff=HS_Screen=nil
+function HS_OnLoad()HS_Screen=GetConfigValue("profType")xipdbg("In Lua: profile Type"..HS_Screen)if(HS_Screen==-1)then HS_Screen="0"end
+if(tonumber(HS_Screen)==0)then
+curSym=GetSessionValue("CURR")DisplayScreenFromRes("HomeScreen1",curSym.." 10.00")elseif(tonumber(HS_Screen)==1)then
+DisplayScreenFromRes("HomeScreen2")end
+end
+function HS_OnlineRcv()SetSessionValue("rcvamount","-10")ChangeXla("ReceiveOnline")end
+function HS_OnlineRcvFixed()SetSessionValue("rcvamount","10.00")end
+function HS_OfflineRcv()end
+function HS_OnLeft()if(tonumber(HS_Screen)==0)then
+DisplayScreenFromRes("HomeScreen2")SetConfigValue("profType","1")HS_Screen="1"elseif(tonumber(HS_Screen)==1)then
+curSym=GetSessionValue("CURR")DisplayScreenFromRes("HomeScreen1",curSym.." 10.00")SetConfigValue("profType","0")HS_Screen="0"end
+end
+function HS_OnRight()if(tonumber(HS_Screen)==1)then
+DisplayScreenFromRes("HomeScreen1")SetConfigValue("profType","0")HS_Screen="0"elseif(tonumber(HS_Screen)==0)then
+curSym=GetSessionValue("CURR")DisplayScreenFromRes("HomeScreen2",curSym.." 10.00")SetConfigValue("profType","1")HS_Screen="1"end
+end
+function HS_OnCheckMomoBalance()xipdbg("In Lua: function HS_OnCheckMomoBalance")ChangeXla("CheckBalanceMomo")end
+function HS_OnNFC()xipdbg("In Lua: function HS_OnNFC")ChangeXla("TestNFC")end
+function HS_OnCashIn()xipdbg("In Lua: function HS_OnCashIn")end
+function HS_OnNewIdea()xipdbg("In Lua: function HS_OnNewIdea")end[HomeScreen1]
+screenType=0
+size=756
+Buff=<screen><screenName name="HomeScreen1"/><screenType id="0"/><widget name="hometl" imageid="Image:11S.gif" text="MOMO_BALANCE" textx="24"/><widget name="hometr" imageid="Image:11S.gif" text="TEST_NFC" textx="83"/><widget name="homebl" imageid="Image:11S.gif" text="MOMO_CASHIN" textx="24"/><widget name="homebr" imageid="Image:11S.gif" text="MOMO_NEW_IDEA" textx="108"/><image X1="2" Y1="64" type="3" imageid="img_leftarrow"/><image X1="150" Y1="64" type="3" imageid="img_rightarrow"/><actions key_1="HS_OnRight" key_2="HS_OnLeft" key_ok="HS_ShowMenu" key_left="HS_OnLeft" key_right="HS_OnRight" key_xip="HS_OnRcv" key_tlsk="HS_OnCheckMomoBalance" key_trsk="HS_OnNFC" key_blsk="HS_OnCashIn" key_brsk="HS_OnNewIdea"/><ticker tickerenable="0"/></screen>
+[HomeScreen2]
+screenType=0
+size=718
+Buff=<screen><screenName name="HomeScreen2"/><screenType id="0"/><widget name="hometl" imageid="Image:icon.gif" text="@1" textx="24"/><widget name="hometr" imageid="Image:icon.gif" text="RCV" textx="96"/><widget name="homebl" imageid="Image:icon.gif" text="RCVOFF" textx="24"/><widget name="homebr" imageid="Image:3bar_ico.gif" text="MENU" textx="108"/><image X1="2" Y1="64" type="3" imageid="img_leftarrow"/><image X1="150" Y1="64" type="3" imageid="img_rightarrow"/><actions key_2="HS_OnRight" key_tlsk="HS_OnlineRcvFixed" key_trsk="HS_OnlineRcv" key_blsk="HS_OfflineRcv" key_brsk="HS_ShowMenu" key_ok="HS_ShowMenu" key_left="HS_OnLeft" key_right="HS_OnRight" key_xip="HS_OnRcv"/><ticker tickerenable="0"/></screen>
+[CRC]
+size=10
+Buff=TA==

@@ -1,0 +1,41 @@
+<screen>
+  <screenName name="HomeScreen1"/>
+    <screenType id="0" />
+    <widget name="hometl" imageid="Image:11S.gif" text="MOMO_BALANCE" textx="24"/>
+    <widget name="hometr" imageid="Image:11S.gif" text="TEST_NFC" textx="83"/>
+    <widget name="homebl" imageid="Image:11S.gif" text="MOMO_CASHIN" textx="24"/>
+    <widget name="homebr" imageid="Image:11S.gif" text="MOMO_NEW_IDEA" textx="108"/>
+
+    <image X1="2" Y1="64" type="3" imageid="img_leftarrow" />
+    <image X1="150" Y1="64" type="3" imageid="img_rightarrow" />
+    
+    <actions 
+      key_1="HS_OnRight"
+      key_2="HS_OnLeft" 
+      key_ok="HS_ShowMenu" 
+      key_left="HS_OnLeft" 
+      key_right="HS_OnRight" 
+      key_xip="HS_OnRcv"
+
+      key_tlsk="HS_OnCheckMomoBalance" 
+      key_trsk="HS_OnNFC" 
+      key_blsk="HS_OnCashIn" 
+      key_brsk="HS_OnNewIdea" 
+      />
+    <ticker tickerenable="0"/>
+</screen>
+
+<screen>
+  <screenName name="HomeScreen2"/> 
+  <screenType id="0" />
+  <widget name="hometl" imageid="Image:icon.gif" text="@1" textx="24"/>
+  <widget name="hometr" imageid="Image:icon.gif" text="RCV" textx="96"/>
+  <widget name="homebl" imageid="Image:icon.gif" text="RCVOFF" textx="24"/>
+  <widget name="homebr" imageid="Image:3bar_ico.gif" text="MENU" textx="108"/>
+
+  <image X1="2" Y1="64" type="3" imageid="img_leftarrow" />
+  <image X1="150" Y1="64" type="3" imageid="img_rightarrow" />
+  
+  <actions key_2 = "HS_OnRight" key_tlsk="HS_OnlineRcvFixed" key_trsk="HS_OnlineRcv" key_blsk="HS_OfflineRcv" key_brsk="HS_ShowMenu" key_ok="HS_ShowMenu" key_left="HS_OnLeft" key_right="HS_OnRight" key_xip="HS_OnRcv"/>
+  <ticker tickerenable="0"/>
+</screen>

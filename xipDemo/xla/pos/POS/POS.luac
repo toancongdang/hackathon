@@ -1,0 +1,39 @@
+nfcSess=nil
+totalAmount=0
+phoneNumber=""function POS_OnLoad()xipdbg("Calling DisplayScreenFromRes")DisplayScreenFromRes("POS_Screen1")end
+function POS_Screen1_OnLeft()goHome()end
+function POS_Screen1_OnRight(n)totalAmount=n
+nfcSess=0
+xipdbg("Calling POS_Screen1_OnRight amount "..n)DisplayScreenFromRes("NFCProgress")nfcSess=sysnfc_init("onNFCReadDetectValData")end
+function onNFCReadDetectValData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_readTag(nfcSess,1,"onNFCReadValData")elseif(nfcSess~=0)then
+showResultTransactionScreen("NFC loi","onNFCReadDetectValData")end
+end
+function onNFCReadValData(e,n,t)local t=1
+cancelNFC()phoneNumber=""if(e=="true")then
+xipdbg("In Lua: onNFCReadValData "..n)local n=mysplit(n,"|")xipdbg("In Lua: onNFCReadValData phone "..n[1])phoneNumber=n[1]DisplayScreenFromRes("confirmTransactionScreen","So dt: "..phoneNumber,"So tien: "..totalAmount)else
+showResultTransactionScreen("NFC loi","onNFCReadValData")end
+end
+function onCancelNFC()nfcSess=0
+DisplayScreenFromRes("POS_Screen1")end
+function onBackToInputScreen()DisplayScreenFromRes("POS_Screen1")end
+function POS_confirmTransactionScreen_OnLeft()DisplayScreenFromRes("POS_Screen1")end
+function POS_confirmRight(n)xipdbg("In Lua: POS_confirmRight password "..n)DisplayScreenFromRes("posProgressScreen")end
+function POS_ProgressScreen_OnLeft()DisplayScreenFromRes("confirmTransactionScreen","So dt: "..phoneNumber,"So tien: "..totalAmount)end
+function POS_ProgressScreen_OnRight()showResultTransactionScreen("Successfull","")end
+function goHome()ChangeXla("HomeScreen")end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("resultTransactionScreen",e,n)end
+function cancelNFC()if(nfcSess~=0)then
+sysnfc_nfc_cancel(nfcSess)nfcSess=0
+end
+end
+function mysplit(n,e)xipdbg("In Lua: mysplit inputstr1: "..n)if e==nil then
+e="%s"end
+xipdbg("In Lua: mysplit inputstr2: ")local t={};i=1
+for e in string.gmatch(n,"([^"..e.."]+)")do
+xipdbg("In Lua: mysplit inputstr3: "..n)t[i]=e
+i=i+1
+end
+xipdbg("In Lua: mysplit inputstr4: ")return t
+end

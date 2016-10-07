@@ -1,0 +1,75 @@
+[properties]
+size=631
+Buff=<properties><XLAmeta><package name="XLAKIT" XLA="POS" ver="1.0.1" desc="POS based on XLAs"/><device version="2.2.1"/><server version="2.0.0"/><entry oninstall="POS_OnInstall" onload="POS_OnLoad"/><script lua="yes"/><reqlualib LuaLibName="xla"/><reqlualib LuaLibName="xms"/><reqlualib LuaLibName="screen"/><reqlualib LuaLibName="sysnfc"/><reqlualib LuaLibName="config"/><reqlualib LuaLibName="record"/><reqlualib LuaLibName="uuid"/><reqlualib LuaLibName="appconfig"/></XLAmeta>
+<require><XipXla name="Global.xla"/></require>
+<params><param refreshGPRS="1"/><param showLastTxn="0"/><param Language="SP"/></params>
+</properties>
+[strings]
+size=770
+Buff=<strings><language><EN><str lblTitle="Thanh toan POS"/><str lblTitleTransationResult="Ket qua"/><str NFCPRGS="Dang xu ly NFC"/><str inputAmountLabel="Nhap so tien:"/><str tapTap="Tap tap"/><str confirmTransactionScreen="Xac nhan giao dich"/><str progressLabel="Dang xu ly"/><str phoneNumberLbl="So dt: "/><str totalAmountLbl="So tien: "/><str inputPassword="Nhap mat khau:"/></EN>
+<SP><str lblTitle="Thanh toan PO"/><str lblTitleTransationResult="Ket qua"/><str NFCPRGS="Dang xu ly NFC"/><str inputAmountLabel="Nhap so tien:"/><str tapTap="Tap tap"/><str confirmTransactionScreen="Xac nhan giao dich"/><str progressLabel="Dang xu ly"/><str phoneNumberLbl="So dt: "/><str totalAmountLbl="So tien: "/><str inputPassword="Nhap mat khau:"/></SP>
+</language>
+</strings>
+[LUAScript]
+size=2023
+Buff=nfcSess=nil
+totalAmount=0
+phoneNumber=""function POS_OnLoad()xipdbg("Calling DisplayScreenFromRes")DisplayScreenFromRes("POS_Screen1")end
+function POS_Screen1_OnLeft()goHome()end
+function POS_Screen1_OnRight(n)totalAmount=n
+nfcSess=0
+xipdbg("Calling POS_Screen1_OnRight amount "..n)DisplayScreenFromRes("NFCProgress")nfcSess=sysnfc_init("onNFCReadDetectValData")end
+function onNFCReadDetectValData(n,e,t)xid=e
+if(n=="true")then
+sysnfc_readTag(nfcSess,1,"onNFCReadValData")elseif(nfcSess~=0)then
+showResultTransactionScreen("NFC loi","onNFCReadDetectValData")end
+end
+function onNFCReadValData(e,n,t)local t=1
+cancelNFC()phoneNumber=""if(e=="true")then
+xipdbg("In Lua: onNFCReadValData "..n)local n=mysplit(n,"|")xipdbg("In Lua: onNFCReadValData phone "..n[1])phoneNumber=n[1]DisplayScreenFromRes("confirmTransactionScreen","So dt: "..phoneNumber,"So tien: "..totalAmount)else
+showResultTransactionScreen("NFC loi","onNFCReadValData")end
+end
+function onCancelNFC()nfcSess=0
+DisplayScreenFromRes("POS_Screen1")end
+function onBackToInputScreen()DisplayScreenFromRes("POS_Screen1")end
+function POS_confirmTransactionScreen_OnLeft()DisplayScreenFromRes("POS_Screen1")end
+function POS_confirmRight(n)xipdbg("In Lua: POS_confirmRight password "..n)DisplayScreenFromRes("posProgressScreen")end
+function POS_ProgressScreen_OnLeft()DisplayScreenFromRes("confirmTransactionScreen","So dt: "..phoneNumber,"So tien: "..totalAmount)end
+function POS_ProgressScreen_OnRight()showResultTransactionScreen("Successfull","")end
+function goHome()ChangeXla("HomeScreen")end
+function showResultTransactionScreen(e,n)DisplayScreenFromRes("resultTransactionScreen",e,n)end
+function cancelNFC()if(nfcSess~=0)then
+sysnfc_nfc_cancel(nfcSess)nfcSess=0
+end
+end
+function mysplit(n,e)xipdbg("In Lua: mysplit inputstr1: "..n)if e==nil then
+e="%s"end
+xipdbg("In Lua: mysplit inputstr2: ")local t={};i=1
+for e in string.gmatch(n,"([^"..e.."]+)")do
+xipdbg("In Lua: mysplit inputstr3: "..n)t[i]=e
+i=i+1
+end
+xipdbg("In Lua: mysplit inputstr4: ")return t
+end[POS_Screen1]
+screenType=1
+size=427
+Buff=<screen><screenName name="POS_Screen1"/><screenType id="1"/><widget name="title" text="lblTitle"/><string x="8" y="50" text="inputAmountLabel" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="input" inputtype="1" maxinputlen="12"/><widget name="brsk" text="Global:TIEPTUC"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="POS_Screen1_OnLeft" key_brsk="POS_Screen1_OnRight"/></screen>
+[NFCProgress]
+screenType=0
+size=308
+Buff=<screen><screenName name="NFCProgress"/><screenType id="0"/><widget name="title" text="NFCPRGS"/><string x="8" y="36" text="tapTap" font="0" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="nfcanim"/><widget name="blsk" text="Global:XACNHAN"/><actions key_blsk="onCancelNFC"/></screen>
+[resultTransactionScreen]
+screenType=1
+size=407
+Buff=<screen><screenName name="resultTransactionScreen"/><screenType id="1"/><widget name="title" text="lblTitleTransationResult"/><string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="onBackToInputScreen"/></screen>
+[confirmTransactionScreen]
+screenType=1
+size=650
+Buff=<screen><screenName name="confirmTransactionScreen"/><screenType id="1"/><widget name="title" text="confirmTransactionScreen"/><string x="8" y="34" text="@1" font="0" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="44" text="@2" font="0" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><string x="8" y="64" text="inputPassword" font="0" fontcolorR="255" fontcolorG="255" fontcolorB="255"/><widget name="input" inputtype="0" maxinputlen="6"/><widget name="brsk" text="Global:XACNHAN"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="POS_confirmTransactionScreen_OnLeft" key_brsk="POS_confirmRight"/></screen>
+[posProgressScreen]
+screenType=0
+size=344
+Buff=<screen><screenName name="posProgressScreen"/><screenType id="0"/><widget name="title" text="progressLabel"/><widget name="progress"/><widget name="brsk" text="Global:TIEPTUC"/><widget name="blsk" text="Global:TROVE"/><actions key_blsk="POS_ProgressScreen_OnLeft" key_brsk="POS_ProgressScreen_OnRight"/><ticker tickerenable="0"/></screen>
+[CRC]
+size=10
+Buff=RQ==

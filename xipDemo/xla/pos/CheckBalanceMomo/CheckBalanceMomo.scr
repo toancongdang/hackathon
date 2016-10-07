@@ -1,0 +1,58 @@
+<screen>
+	<screenName name="OptionMethodScreen"/>
+    <screenType id="2" />
+	<widget name="title" text="lblTitleOption" />
+	<menus>
+		<menustart menutype="0" x="8" y="42" hotkeyflag="1" generichandler="OnGenericMenu"/>
+		<menustr text="inputMethodLbl" />
+		<menustr text="nfcMethodLbl" />
+		<menustr text="blutoothMethodLbl" />
+		<menuimg xoffset="145" yoffset="40" type="3" imageid="img_uparrow"/>
+		<menuimg xoffset="145" yoffset="100" type="3" imageid="img_downarrow"/>
+	</menus>
+	<widget name="brsk" text="Global:TIEPTUC" />
+	<widget name="blsk" text="Global:TROVE" />
+	<actions  key_blsk="MomoBalance_onBottomLeftPress"/>	
+</screen>
+
+<screen>
+	<screenName name="momoBalanceInputEntryScreen"/>
+	<screenType id="1" />
+	<widget name="title" text="lblTitle" />
+	
+	<string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/>
+	<string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/>
+
+	<widget name="input" inputtype="3" maxinputlen="12" />
+	<widget name="brsk" text="Global:TIEPTUC" />
+	<widget name="blsk" text="Global:TROVE" />
+	
+	<actions  key_blsk="MomoBalance_onBottomLeftPress" key_brsk="MomoBalance_onBottomRightPress"/>	
+</screen>
+
+<screen>
+	<screenName name="momoBalanceCheckPasswordScreen"/>
+	<screenType id="1" />
+	<widget name="title" text="lblTitleSercurity" />
+	
+	<string x="8" y="54" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/>
+
+	<widget name="input" inputtype="0" maxinputlen="12" />
+	<widget name="brsk" text="Global:XACNHAN" />
+	<widget name="blsk" text="Global:TROVE" />
+	
+	<actions  key_blsk="MomoBalance_onBackToInputScreen" key_brsk="MomoBalance_onEnteredPassword"/>	
+</screen>
+
+<screen>
+	<screenName name="momoBalanceResultTransactionScreen"/>
+	<screenType id="1" />
+	<widget name="title" text="lblTitleTransationResult" />
+	
+	<string x="8" y="34" text="@1" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/>
+	<string x="8" y="54" text="@2" font="1" fontcolorR="255" fontcolorG="255" fontcolorB="255"/>
+
+	<widget name="blsk" text="Global:TROVE" />
+	
+	<actions  key_blsk="MomoBalance_onBackToInputScreen"/>	
+</screen>

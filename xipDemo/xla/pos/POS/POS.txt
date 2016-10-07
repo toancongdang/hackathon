@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<strings>
+<language>
+<EN>
+<str lblTitle="Thanh toan POS" />
+<str lblTitleTransationResult="Ket qua" />
+<str NFCPRGS="Dang xu ly NFC" />
+<str inputAmountLabel="Nhap so tien:" />
+<str tapTap="Tap tap" />
+<str confirmTransactionScreen="Xac nhan giao dich" />
+<str progressLabel="Dang xu ly" />
+<str phoneNumberLbl="So dt: "/>
+<str totalAmountLbl="So tien: "/>
+<str inputPassword="Nhap mat khau:" />
+
+</EN>
+<SP>
+<str lblTitle="Thanh toan PO" />
+<str lblTitleTransationResult="Ket qua" />
+<str NFCPRGS="Dang xu ly NFC" />
+<str inputAmountLabel="Nhap so tien:" />
+<str tapTap="Tap tap" />
+<str confirmTransactionScreen="Xac nhan giao dich" />
+<str progressLabel="Dang xu ly" />
+<str phoneNumberLbl="So dt: "/>
+<str totalAmountLbl="So tien: "/>
+<str inputPassword="Nhap mat khau:" />
+
+</SP>
+</language>
+</strings>
